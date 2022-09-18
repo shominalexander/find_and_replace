@@ -1,7 +1,5 @@
 echo on
 
-cd "C:\Rust\find_and_replace"
-
 rustc source.rs
 
 pause
