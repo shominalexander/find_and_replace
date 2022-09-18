@@ -1,18 +1,16 @@
 echo on
 
-pause
-
 cd "C:\Rust\find_and_replace"
 
-pause
-
-rustc find_and_replace.rs
+rustc source.rs
 
 pause
 
-find_and_replace.exe "sii" "C:\Mods\ATS\Work\Parts\def\vehicle\truck\common\engine\factory" "" "torque:"
+source.exe "sii" "C:\Mods\ATS\Work\Parts\def\vehicle\truck\common\engine\handmade\tuning" "" "" "" "price" "0" "" ""
 
 pause
 
-del find_and_replace.exe
-del find_and_replace.pdb
+del source.exe
+del source.pdb
+
+pause
