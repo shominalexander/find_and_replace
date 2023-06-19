@@ -1,7 +1,7 @@
-use std::env;                      // let args: Vec<String> = env::args().collect();
-use std::fs;                       // for item in fs::read_dir(folder).unwrap() {
+use std::env                     ; // let args: Vec<String> = env::args().collect();
+use std::fs                      ; // for item in fs::read_dir(folder).unwrap() {
 use std::io::{BufRead, BufReader}; // let     items   = BufReader::new(fs::File::open(&name).unwrap()).lines();
-use std::io::Write;                // file.write( text.to_string() );
+use std::io::Write               ; // file.write( text.to_string() );
 use std::{ffi::OsStr, path::Path}; // if Path::new(name).extension().and_then(OsStr::to_str) == Some(extension) {
 
 fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_2: &String, new_3: &String, old: &String, skip: usize, target: &String, whole: &String) {
@@ -91,22 +91,20 @@ fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_
 }//fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_2: &String, new_3: &String, old: &String, skip: usize, target: &String, whole: &String) {
 
 fn main() {
- let args     : Vec<String> = env::args().collect();
- let extension:     &String    =     &args[01]        ;
- let folder   :     &String    =     &args[02]        ;
- let limit    :     &mut usize =     &mut 0           ;
- let new_1    :     &String    =     &args[04]        ;
- let new_2    :     &String    =     &args[05]        ;
- let new_3    :     &String    =     &args[06]        ;
- let old      :     &String    =     &args[07]        ;
- let skip     :     &mut usize =     &mut 0           ;
- let target   :     &String    =     &args[09]        ;
- let whole    :     &String    =     &args[10]        ;
+ let args     : Vec<String>   = env::args().collect();
+ let extension:    &String    =     &args[01]        ;
+ let folder   :    &String    =     &args[02]        ;
+ let limit    :    &mut usize =     &mut  0          ;
+ let new_1    :    &String    =     &args[04]        ;
+ let new_2    :    &String    =     &args[05]        ;
+ let new_3    :    &String    =     &args[06]        ;
+ let old      :    &String    =     &args[07]        ;
+ let skip     :    &mut usize =     &mut  0          ;
+ let target   :    &String    =     &args[09]        ;
+ let whole    :    &String    =     &args[10]        ;
 
  match &args[3].parse::<usize>() { Ok(usize) => { *limit = *usize } Err(error) => { println!("error: {:?}", error); } }
  match &args[8].parse::<usize>() { Ok(usize) => { *skip  = *usize } Err(error) => { println!("error: {:?}", error); } }
-
- println!("limit: {:?}", limit);
 
  level(&extension, &folder, *limit, &new_1, &new_2, &new_3, &old, *skip, &target, &whole)
 }//fn main() {
