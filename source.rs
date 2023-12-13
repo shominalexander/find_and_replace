@@ -14,17 +14,22 @@ fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_
    let     path = folder.to_owned() + "\\" + target;
    let mut same = false;
 
-   if !target.trim().is_empty() { 
+   if target.trim().is_empty() { 
+    if extension.trim().is_empty() { 
+      same = true; 
+
+    } else {//if extension.trim().is_empty() { 
+     if Path::new(&name).extension().and_then(OsStr::to_str) == Some(extension) { 
+      same = true; 
+
+     }//if Path::new(name).extension().and_then(OsStr::to_str) == Some(extension) { 
+    }//} else {//if extension.trim().is_empty() { 
+
+   } else {//if !target.trim().is_empty() { 
     if name == path { 
      same = true; 
 
     }//if name == path { 
-
-   } else {//if !target.trim().is_empty() { 
-    if Path::new(&name).extension().and_then(OsStr::to_str) == Some(extension) { 
-     same = true; 
-
-    }//if Path::new(name).extension().and_then(OsStr::to_str) == Some(extension) { 
    }//} else {//if !target.trim().is_empty() { 
 
    if same {
