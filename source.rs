@@ -51,16 +51,16 @@ fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_
       if skip > 0 { if skipped < skip { found = found - 1; skipped = skipped + 1; } }
 
       if found > 0 && ( found <= limit || limit == 0 ) && !new_1.trim().is_empty() {
-       if !whole.trim().is_empty() {
+       if whole.trim().is_empty() {
+        line = line.replace(&old.to_string(), &new_1.to_string());
+
+       } else {//if whole.trim().is_empty() {
         match found { 1 =>                                                                  line = new_1.to_string()
                     , 2 => if !new_2.trim().is_empty() { line = new_2.to_string(); } else { line = new_1.to_string(); }
                     , 3 => if !new_3.trim().is_empty() { line = new_3.to_string(); } else { line = new_1.to_string(); }
                     , _ => ()
                     }
-       } else {//if !whole.trim().is_empty() {
-        line = line.replace(&old.to_string(), &new_1.to_string());
-
-       }//} else {//if !whole.trim().is_empty() {
+       }//} else {//if whole.trim().is_empty() {
       }//if found > 0 && ( found <= limit || limit == 0 ) && !new_1.trim().is_empty() {
      }//if line.find(&old.to_string()) != None {
 
