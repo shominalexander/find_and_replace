@@ -25,71 +25,76 @@ fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_
      }//if Path::new(name).extension().and_then(OsStr::to_str) == Some(extension) { 
     }//} else {//if extension.trim().is_empty() { 
 
-   } else {//if !target.trim().is_empty() { 
+   } else {//if target.trim().is_empty() { 
     if name == path { 
      same = true; 
 
     }//if name == path { 
-   }//} else {//if !target.trim().is_empty() { 
+   }//} else {//if target.trim().is_empty() { 
 
    if same {
-    let mut empty   = 0;
-    let mut found   = 0;
-    let mut index   = 0;
-    let     items   = BufReader::new(fs::File::open(&name).unwrap()).lines();
-    let mut skipped = 0usize;
-    let mut text    = String::new();
+    if old.trim().is_empty() {
+     println!("found file {}", name);
 
-    for item in items {
-     let mut line = item.unwrap().to_string();
+    } else {//if old.trim().is_empty() {
+     let mut empty   = 0;
+     let mut found   = 0;
+     let mut index   = 0;
+     let     items   = BufReader::new(fs::File::open(&name).unwrap()).lines();
+     let mut skipped = 0usize;
+     let mut text    = String::new();
 
-     if line.trim().is_empty() { empty = empty + 1; } else { empty = 0; }
+     for item in items {
+      let mut line = item.unwrap().to_string();
 
-     if line.find(&old.to_string()) != None {
-      found = found + 1;
+      if line.trim().is_empty() { empty = empty + 1; } else { empty = 0; }
 
-      if skip > 0 { if skipped < skip { found = found - 1; skipped = skipped + 1; } }
+      if line.find(&old.to_string()) != None {
+       found = found + 1;
 
-      if found > 0 && ( found <= limit || limit == 0 ) && !new_1.trim().is_empty() {
-       if whole.trim().is_empty() {
-        line = line.replace(&old.to_string(), &new_1.to_string());
+       if skip > 0 { if skipped < skip { found = found - 1; skipped = skipped + 1; } }
 
-       } else {//if whole.trim().is_empty() {
-        match found { 1 =>                                                                  line = new_1.to_string()
-                    , 2 => if !new_2.trim().is_empty() { line = new_2.to_string(); } else { line = new_1.to_string(); }
-                    , 3 => if !new_3.trim().is_empty() { line = new_3.to_string(); } else { line = new_1.to_string(); }
-                    , _ => ()
-                    }
-       }//} else {//if whole.trim().is_empty() {
-      }//if found > 0 && ( found <= limit || limit == 0 ) && !new_1.trim().is_empty() {
-     }//if line.find(&old.to_string()) != None {
+       if found > 0 && ( found <= limit || limit == 0 ) && !new_1.trim().is_empty() {
+        if whole.trim().is_empty() {
+         line = line.replace(&old.to_string(), &new_1.to_string());
 
-     index = index + 1;
+        } else {//if whole.trim().is_empty() {
+         match found { 1 =>                                                                  line = new_1.to_string()
+                     , 2 => if !new_2.trim().is_empty() { line = new_2.to_string(); } else { line = new_1.to_string(); }
+                     , 3 => if !new_3.trim().is_empty() { line = new_3.to_string(); } else { line = new_1.to_string(); }
+                     , _ => ()
+                     }
+        }//} else {//if whole.trim().is_empty() {
+       }//if found > 0 && ( found <= limit || limit == 0 ) && !new_1.trim().is_empty() {
+      }//if line.find(&old.to_string()) != None {
 
-     if empty < 2 { 
-      if index > 1 { 
-       text = text + &"\n".to_string() + &line; 
+      index = index + 1;
 
-      } else {//if index > 1 { 
-       text = line; 
+      if empty < 2 { 
+       if index > 1 { 
+        text = text + &"\n".to_string() + &line; 
 
-      }//} else {//if index > 1 { 
-     }//if empty < 2 { 
-    }//for item in items {
+       } else {//if index > 1 { 
+        text = line; 
 
-    text = text + &"\n".to_string(); 
+       }//} else {//if index > 1 { 
+      }//if empty < 2 { 
+     }//for item in items {
 
-    if found > 0 {
-     if !new_1.trim().is_empty() {
-      text = text.replace(&"\n\n\n".to_string(), &"\n\n".to_string());
+     text = text + &"\n".to_string(); 
 
-      println!("{:?} bytes written to {}", fs::OpenOptions::new().truncate(true).write(true).open(&name).unwrap().write(&text.as_bytes()).unwrap(), &name);
+     if found > 0 {
+      if !new_1.trim().is_empty() {
+       text = text.replace(&"\n\n\n".to_string(), &"\n\n".to_string());
 
-     } else {//if !new_1.trim().is_empty() {
-      println!("found in {}", name);
+       println!("{:?} bytes written to {}", fs::OpenOptions::new().truncate(true).write(true).open(&name).unwrap().write(&text.as_bytes()).unwrap(), &name);
 
-     }//} else {//if !new_1.trim().is_empty() {
-    }//if found > 0 {
+      } else {//if !new_1.trim().is_empty() {
+       println!("found in {}", name);
+
+      }//} else {//if !new_1.trim().is_empty() {
+     }//if found > 0 {
+    }//} else {//if old.trim().is_empty() {
    }//if same {
   }//} else {//if item.as_ref().unwrap().path().is_dir() {
  }//for item in fs::read_dir(folder).unwrap() {
