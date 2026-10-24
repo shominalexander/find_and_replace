@@ -4,10 +4,10 @@ use std::io::{BufRead, BufReader}; // let     items   = BufReader::new(fs::File:
 use std::io::Write               ; // file.write( text.to_string() );
 use std::{ffi::OsStr, path::Path}; // if Path::new(name).extension().and_then(OsStr::to_str) == Some(extension) {
 
-fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_2: &String, new_3: &String, old: &String, skip: usize, target: &String, whole: &String) {
+fn level(extension: &String, folder: &String, last: usize, new_1: &String, new_2: &String, new_3: &String, new_4: &String, new_5: &String, new_6: &String, new_7: &String, new_8: &String, new_9: &String, old: &String, skip: usize, target: &String, whole: &String) {
  for item in fs::read_dir(folder).unwrap() {
   if item.as_ref().unwrap().path().is_dir() {
-   level(&extension, &item.as_ref().unwrap().path().display().to_string(), limit, &new_1, &new_2, &new_3, &old, skip, &target, &whole);
+   level(&extension, &item.as_ref().unwrap().path().display().to_string(), last, &new_1, &new_2, &new_3, &new_4, &new_5, &new_6, &new_7, &new_8, &new_9, &old, skip, &target, &whole);
 
   } else { //if item.as_ref().unwrap().path().is_dir() {
    let     name = item.as_ref().unwrap().path().display().to_string();
@@ -54,7 +54,7 @@ fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_
 
        if skip > 0 { if skipped < skip { found = found - 1; skipped = skipped + 1; } }
 
-       if found > 0 && ( found <= limit || limit == 0 ) && !new_1.trim().is_empty() {
+       if found > 0 && ( found <= last || last == 0 ) && !new_1.trim().is_empty() {
         if whole.trim().is_empty() {
          line = line.replace(&old.to_string(), &new_1.to_string());
 
@@ -62,10 +62,16 @@ fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_
          match found { 1 =>                                                                  line = new_1.to_string()
                      , 2 => if !new_2.trim().is_empty() { line = new_2.to_string(); } else { line = new_1.to_string(); }
                      , 3 => if !new_3.trim().is_empty() { line = new_3.to_string(); } else { line = new_1.to_string(); }
-                     , _ => ()
+                     , 4 => if !new_4.trim().is_empty() { line = new_4.to_string(); } else { line = new_1.to_string(); }
+                     , 5 => if !new_5.trim().is_empty() { line = new_5.to_string(); } else { line = new_1.to_string(); }
+                     , 6 => if !new_6.trim().is_empty() { line = new_6.to_string(); } else { line = new_1.to_string(); }
+                     , 7 => if !new_7.trim().is_empty() { line = new_7.to_string(); } else { line = new_1.to_string(); }
+                     , 8 => if !new_8.trim().is_empty() { line = new_8.to_string(); } else { line = new_1.to_string(); }
+                     , 9 => if !new_9.trim().is_empty() { line = new_9.to_string(); } else { line = new_1.to_string(); }
+                     , _ =>                                                                  line = new_1.to_string()
                      }
         }//} else {//if whole.trim().is_empty() {
-       }//if found > 0 && ( found <= limit || limit == 0 ) && !new_1.trim().is_empty() {
+       }//if found > 0 && ( found <= last || last == 0 ) && !new_1.trim().is_empty() {
       }//if line.find(&old.to_string()) != None {
 
       index = index + 1;
@@ -98,23 +104,29 @@ fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_
    }//if same {
   }//} else {//if item.as_ref().unwrap().path().is_dir() {
  }//for item in fs::read_dir(folder).unwrap() {
-}//fn level(extension: &String, folder: &String, limit: usize, new_1: &String, new_2: &String, new_3: &String, old: &String, skip: usize, target: &String, whole: &String) {
+}//fn level(extension: &String, folder: &String, last: usize, new_1: &String, new_2: &String, new_3: &String, new_4: &String, new_5: &String, new_6: &String, new_7: &String, new_8: &String, new_9: &String, old: &String, skip: usize, target: &String, whole: &String) {
 
 fn main() {
  let args     : Vec<String>   = env::args().collect();
  let extension:    &String    =     &args[01]        ;
  let folder   :    &String    =     &args[02]        ;
- let limit    :    &mut usize =     &mut  0          ;
+ let last     :    &mut usize =     &mut  0          ;
  let new_1    :    &String    =     &args[04]        ;
  let new_2    :    &String    =     &args[05]        ;
  let new_3    :    &String    =     &args[06]        ;
- let old      :    &String    =     &args[07]        ;
+ let new_4    :    &String    =     &args[07]        ;
+ let new_5    :    &String    =     &args[08]        ;
+ let new_6    :    &String    =     &args[09]        ;
+ let new_7    :    &String    =     &args[10]        ;
+ let new_8    :    &String    =     &args[11]        ;
+ let new_9    :    &String    =     &args[12]        ;
+ let old      :    &String    =     &args[13]        ;
  let skip     :    &mut usize =     &mut  0          ;
- let target   :    &String    =     &args[09]        ;
- let whole    :    &String    =     &args[10]        ;
+ let target   :    &String    =     &args[15]        ;
+ let whole    :    &String    =     &args[16]        ;
 
- match &args[3].parse::<usize>() { Ok(usize) => { *limit = *usize } Err(error) => { println!("error: {:?}", error); } }
- match &args[8].parse::<usize>() { Ok(usize) => { *skip  = *usize } Err(error) => { println!("error: {:?}", error); } }
+ match &args[03].parse::<usize>() { Ok(usize) => { *last = *usize } Err(error) => { println!("error: {:?}", error); } }
+ match &args[14].parse::<usize>() { Ok(usize) => { *skip = *usize } Err(error) => { println!("error: {:?}", error); } }
 
- level(&extension, &folder, *limit, &new_1, &new_2, &new_3, &old, *skip, &target, &whole)
+ level(&extension, &folder, *last, &new_1, &new_2, &new_3, &new_4, &new_5, &new_6, &new_7, &new_8, &new_9, &old, *skip, &target, &whole)
 }//fn main() {
